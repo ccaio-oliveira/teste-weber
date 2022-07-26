@@ -2,6 +2,7 @@
 
 require_once './config/protect.php';
 require_once './config/categorias.php';
+require_once './config/produtos.php';
 
 ?>
 
@@ -30,12 +31,12 @@ require_once './config/categorias.php';
                     <li>
 
                         <a href="./addCategoria.php" class="btn btn-warning">Adicionar categoria</a>
-                    
+
                     </li>
                     <li>
 
                         <a href="./add_produto.php" class="btn btn-warning">Adicionar produto</a>
-                    
+
                     </li>
 
                 </ul>
@@ -60,7 +61,7 @@ require_once './config/categorias.php';
 
                         <?php
 
-                        if ($quantidade > 0) {
+                        if ($quantidade_categ > 0) {
 
                             $categoria = $sql_query->fetch_assoc();
 
@@ -69,11 +70,9 @@ require_once './config/categorias.php';
                                 <option value="<?= $categoria['nome_categoria'] ?>"><?= $categoria['nome_categoria'] ?></option>
 
                         <?php } while ($categoria = $sql_query->fetch_assoc());
-
                         } else {
 
                             header('Location: ./home.php?erro=invalido');
-
                         } ?>
 
                     </select>
@@ -87,33 +86,39 @@ require_once './config/categorias.php';
                 <h1>Produtos disponíveis</h1>
                 <div id="prod-list">
 
-                    <?php if(isset($_GET['produto']) == 'vazio'){ ?>
+                    <?php if (isset($_GET['produto']) == 'vazio') { ?>
 
                         <div class="prod-vazio">
                             <h2>Nenhum produto disponível</h2>
                         </div>
-                    
-                    <?php } else { 
 
-                        do { ?>
+                        <?php } else {
 
-                            <div class="prod-item">
+                        if ($quantidade_prod > 0) {
 
-                                <img src="<?php $produto['foto'] ?>">
-                                <div class="prod-text">
-                                    <h2><?php $produto['nome_produto'] ?></h2>
-                                    <p><?php $produto['situacao'] ?></p>
+                            $produtos = $sql_query_prod->fetch_assoc();
+
+                            // print_r($produtos);
+
+                            do { ?>
+
+                                <div class="prod-item">
+
+                                    <div><?php $imagem = base64_encode($produtos['foto']); echo "<img src='data:image/png;base64,$imagem'/>";?></div>
+                                    <div class="prod-text">
+                                        <h2><?= $produtos['nome_produto'] ?></h2>
+                                        <p><?= $produtos['situacao'] ?></p>
+                                    </div>
+                                    <div class="prod-info">
+                                        <p class="preco"><?= $produtos['preco'] ?></p>
+                                        <p class="categ"><?= $produtos['categoria'] ?></p>
+                                        <button class="remove-prod"><i class="fa-solid fa-trash-can"></i> Remover</button>
+                                    </div>
+
                                 </div>
-                                <div class="prod-info">
-                                    <p class="preco"><?php $produto['preco'] ?></p>
-                                    <p class="categ"><?php $produto['categoria'] ?></p>
-                                    <button class="remove-prod"><i class="fa-solid fa-trash-can"></i> Remover</button>
-                                </div>
 
-                            </div>
-
-                        <?php } while($produto = $sql_query->fetch_assoc()); 
-                        
+                            <?php } while ($produtos = $sql_query_prod->fetch_assoc());
+                        }
                     } ?>
 
                 </div>

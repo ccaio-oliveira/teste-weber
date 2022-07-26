@@ -18,6 +18,10 @@ require_once './config/protect.php';
 
     <div class="container">
 
+        <header>
+            <a href="./home.php" class="btn btn-warning">Voltar para o cardápio</a>
+        </header>
+
         <main>
 
             <section id="adicionar_prod">
@@ -27,9 +31,10 @@ require_once './config/protect.php';
 
                     <input type="text" id="nome_produto" name="nome_produto" placeholder="Nome do produto">
                     <input type="text" id="categoria" name="nome_categoria" placeholder="Nome da categoria">
-                    <input type="number" id="preco" name="preco" placeholder="Preço do produto">
+                    <input type="text" id="preco" name="preco" placeholder="Preço do produto">
                     <label for="image">Adicionar imagem do produto: </label>
-                    <input type="file" name="image" id="image">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="99999999"/>
+                    <input type="file" name="image">
                     <button type="submit">Adicionar produto</button>
                     <?php if (isset($_GET['error']) == 'vazio') { ?>
 

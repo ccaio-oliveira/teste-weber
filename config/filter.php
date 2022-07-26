@@ -1,27 +1,31 @@
-<?php 
+<?php
 
-session_start();
 require_once './conectar_db.php';
 
 $select = $_POST['filterProd'];
 
-if($select == 'selected'){
+switch ($select) {
 
-    $sql_code = "SELECT nome_produto, categoria, preco, foto, situacao FROM tb_produtos ORDER BY nome_produto";
-    $sql_query = mysqli_query($con, $sql_code);
+    case 'selected':
 
-    $cont = $sql_query->num_rows;
+        $sql_code = "SELECT * FROM tb_produtos";
+        $sql_query = mysqli_query($con, $sql_code);
 
-    if($cont > 0){
+        $cont = $sql_query->num_rows;
 
-        $produto = $sql_query->fetch_assoc();
+        if ($cont > 0) {
 
-    } else {
+            header('Location: ../home.php?tipo=selected');
 
-        header('Location: ../home.php?produto=vazio');
+        } else {
 
-    }
+            header('Location: ../home.php?produto=vazio');
+
+        }
+
+        break;
+    
+    // case ''
 
 }
-
 ?>

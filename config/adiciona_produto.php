@@ -4,20 +4,28 @@ session_start();
 require_once './conectar_db.php';
 
 $nome_produto = $_POST['nome_produto'];
-$categoria = $_POST['categoria'];
+$categoria = $_POST['nome_categoria'];
 $preco = $_POST['preco'];
-$imagem = $_POST['image'];
+$imagem = $_FILES['image']['tmp_name'];
 
 $nome_produto = ucfirst($nome_produto);
 $categoria = ucfirst($categoria);
+$preco = floatval($preco);
 
-if(strlen($nome_produto) == 0 or strlen($categoria) == 0 or strlen($preco) == 0 or strlen($imagem) == 0){
+if(strlen($nome_produto) == 0){
 
     header('Location: ../add_produto.php?error=vazio');
 
-} else {
+} else if($imagem != 'none') {
 
-    $sql_code = "INSERT INTO tb_produtos(nome_produto, categoria, preco, foto) VALUES ('$nome_produto', '$categoria', $preco, '$imagem'";
+    $tamanho = $_FILES['image']['size'];
+
+    $fp = fopen($imagem, "rb");
+    $conteudo = fread($fp, $tamanho);
+    $conteudo = addslashes($conteudo);
+    fclose($fp);
+
+    $sql_code = "INSERT INTO tb_produtos(nome_produto, categoria, preco, foto) VALUES ('$nome_produto', '$categoria', $preco, '$conteudo')";
     $sql_query = mysqli_query($con, $sql_code);
 
     $cont = $sql_query->num_rows;

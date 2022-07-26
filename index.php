@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<?php require_once './head.php'; ?>
+<head>
+    <?php require_once './head.php'; ?>
+</head>
+
 <body>
 
     <div id="container">
@@ -19,6 +22,11 @@
                 </div>
             <?php } ?>
             <button type="submit">Login</button>
+            <?php if(isset($_GET['login']) == 'erro'){ ?>
+                <div class="error">
+                    <p>Não foi possível realizar o login, por favor, tente mais tarde!</p>
+                </div>
+            <?php } ?>
         </form>
     </div>
     

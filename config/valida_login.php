@@ -23,9 +23,27 @@ if(strlen($senha) === 0) {
 
     header('Location: ../index.php?email=invalido');
 
-} //else {
+} else {
 
-//     $sql_code = 'SELECT '
+    $sql_code = "SELECT email, senha, usuario FROM tb_usuario WHERE email = '$email' AND senha = '$senha'";
+    $sql_query = mysqli_query($con, $sql_code);
 
-// }
+    $quantidade = $sql_query->num_rows;
+
+    if($quantidade == 1){
+
+        $detalhes = $sql_query->fetch_assoc();
+        header('Location: ../home.php');
+
+        if(!isset($_SESSION)){
+            session_start();
+        }
+
+        $_SESSION['usuario'] = $detalhes['usuario'];
+
+    } else {
+        header('Location: ../index.php?login=erro');
+    }
+
+}
 ?>

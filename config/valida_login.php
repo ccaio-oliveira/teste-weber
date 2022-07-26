@@ -15,7 +15,7 @@ function validaEmail($email){
     }
 }
 
-if(strlen($senha) === 0) {
+if(strlen($senha) == 0) {
 
     header('Location: ../index.php?senha=vazio');
 

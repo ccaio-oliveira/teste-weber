@@ -15,6 +15,11 @@ body {
     flex-direction: column;
 }
 
+.container {
+    background: #fff;
+    padding-top: 20px;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -33,6 +38,7 @@ button{
     padding: 10px;
     border: 0px;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 button:hover {
@@ -43,4 +49,9 @@ button:hover {
 .error {
     margin: 0px;
     color: red;
+}
+
+.success {
+    margin: 0px;
+    color: green;
 }

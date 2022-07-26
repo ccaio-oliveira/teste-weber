@@ -1,0 +1,16 @@
+.container {
+    padding-bottom: 10px;
+}
+
+#desc_categ {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}

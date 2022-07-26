@@ -1,4 +1,42 @@
 .container {
     background: #fff;
     padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+header .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+ul li {
+    margin-right: 10px;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+label, select {
+    margin-right: 10px;
+}
+
+#filter {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+#prod-list {
+    margin-top: 20px;
 }

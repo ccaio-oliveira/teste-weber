@@ -39,3 +39,8 @@ button:hover {
     cursor: pointer;
     background: rgba(81, 55, 111, 0.5);
 }
+
+.error {
+    margin: 0px;
+    color: red;
+}

@@ -4,6 +4,9 @@ require_once './conectar_db.php';
 $nome_categoria = $_POST['nome_categoria'];
 $descricao = $_POST['descricao'];
 
+$nome_categoria = ucfirst($nome_categoria);
+$descricao = ucfirst($descricao);
+
 if(strlen($nome_categoria) == 0 || strlen($descricao) == 0){
 
     header('Location: ../addCategoria.php?error=vazio');

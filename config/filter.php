@@ -1,31 +1,34 @@
 <?php
 
-require_once './conectar_db.php';
+require './conectar_db.php';
+require './produtos.php';
+require './categorias.php';
 
 $select = $_POST['filterProd'];
 
-switch ($select) {
+if ($quantidade_prod > 0 and $quantidade_categ > 0) {
 
-    case 'selected':
+    $categoria = $sql_query_categ->fetch_assoc();    
 
-        $sql_code = "SELECT * FROM tb_produtos";
-        $sql_query = mysqli_query($con, $sql_code);
+    do {
 
-        $cont = $sql_query->num_rows;
+        $categorias = $categoria['nome_categoria'];
+        switch($select){
 
-        if ($cont > 0) {
+            case $categorias:
 
-            header('Location: ../home.php?tipo=selected');
+                $sql_filter = "SELECT * FROM tb_produtos WHERE categoria = '$categorias'";
+                $query_filter = mysqli_query($con, $sql_filter);
 
-        } else {
+                $cont = $query_filter->num_rows;
 
-            header('Location: ../home.php?produto=vazio');
+                if($cont > 0){
 
+                    header('Location: ../home.php?categ=' . $categorias);
+
+                }
+                
         }
 
-        break;
-    
-    // case ''
-
+    } while ($categoria = $sql_query_categ->fetch_assoc() and $produtos = $sql_query_prod->fetch_assoc());
 }
-?>

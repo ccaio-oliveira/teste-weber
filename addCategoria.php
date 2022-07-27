@@ -15,6 +15,9 @@ require_once './config/categorias.php';
 
 <body>
     <div class="container">
+        <header>
+            <a href="./home.php" class="btn btn-warning">Voltar para a pagina inicial</a>
+        </header>
         <main>
             <section id="adicionar_cat">
                 <h1>Adicionar categoria</h1>
@@ -33,26 +36,6 @@ require_once './config/categorias.php';
                         </div>
                     <?php } ?>
                 </form>
-            </section>
-            <section id="lista_categ">
-                <h1>Categorias listadas</h1>
-                <?php
-
-                if ($quantidade > 0) {
-
-                    $categoria = $sql_query->fetch_assoc();
-
-                    do { ?>
-                        <div class="dados">
-                            <p><?=$categoria['nome_categoria']?></p>
-                        </div>
-                    <?php } while($categoria = $sql_query->fetch_assoc());
-                } else {
-
-                    header('Location: ./addCategoria.php?erro=invalido');
-                }
-
-                ?>
             </section>
         </main>
     </div>

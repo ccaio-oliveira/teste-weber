@@ -39,4 +39,20 @@ label, select {
 
 #prod-list {
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.prod-item {
+    background: #ccc;
+    margin-right: 30px;
+    padding: 10px;
+}
+
+.prod-item img {
+    width: 150px;
+}
+
+.prod-text h2 {
+    font-size: 1.4rem;
 }

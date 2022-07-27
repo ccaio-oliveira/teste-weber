@@ -15,7 +15,7 @@
                     <p>E-mail inválido</p>
                 </div>
             <?php } ?>
-            <input type="senha" id="senha" name="senha" placeholder="Senha">
+            <input type="password" id="senha" name="senha" placeholder="Senha">
             <?php if(isset($_GET['senha']) == 'vazio'){ ?>
                 <div class="error">
                     <p>Senha inválida</p>

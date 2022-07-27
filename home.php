@@ -3,6 +3,7 @@
 require_once './config/protect.php';
 require_once './config/categorias.php';
 require_once './config/produtos.php';
+require_once './config/conectar_db.php';
 
 ?>
 
@@ -63,13 +64,13 @@ require_once './config/produtos.php';
 
                         if ($quantidade_categ > 0) {
 
-                            $categoria = $sql_query->fetch_assoc();
+                            $categoria = $sql_query_categ->fetch_assoc();
 
                             do { ?>
 
                                 <option value="<?= $categoria['nome_categoria'] ?>"><?= $categoria['nome_categoria'] ?></option>
 
-                            <?php } while ($categoria = $sql_query->fetch_assoc());
+                            <?php } while ($categoria = $sql_query_categ->fetch_assoc());
                         } else {
 
                             header('Location: ./home.php?erro=invalido');
@@ -92,7 +93,7 @@ require_once './config/produtos.php';
                             <h2>Nenhum produto disponível</h2>
                         </div>
 
-                        <?php } else {
+                    <?php } else if(isset($_GET['categ']) == 'selected' or isset($_GET[''])) {
 
                         if ($quantidade_prod > 0) {
 
@@ -115,7 +116,36 @@ require_once './config/produtos.php';
                                 </div>
 
                             <?php } while ($produtos = $sql_query_prod->fetch_assoc());
+                        } else {
+                            header('Location: ./home.php?produto=vazio');
                         }
+                    } else {
+
+                        if($quantidade_prod > 0 and $quantidade_categ > 0){
+
+                            $categoria = $sql_query_categ->fetch_assoc();
+
+                            do { ?>
+
+                                <div class="prod-item">
+
+                                    <div><?php $imagem = base64_encode($_SESSION['foto']); echo "<img src='data:image/png;base64,$imagem'/>";?></div>
+                                    <div class="prod-text">
+                                        <h2><?= $_SESSION['nome_produto'] ?></h2>
+                                    </div>
+                                    <div class="prod-info">
+                                        <p class="preco">R$<?= $_SESSION['preco'] ?></p>
+                                        <p class="categ">Categoria: <?= $_SESSION['categoria'] ?></p>
+                                        <button class="remove-prod"><i class="fa-solid fa-trash-can"></i> Remover</button>
+                                    </div>
+
+                                </div>
+
+                            <?php } while($categoria = $sql_query_categ->fetch_assoc());
+                        } else {
+                            header('Location: ./home.php?produto=vazio');
+                        }
+
                     } ?>
 
                 </div>
@@ -124,6 +154,8 @@ require_once './config/produtos.php';
         </div>
     </main>
 
+
+    <script src="./assets/js/app.js"></script>
 </body>
 
 </html>

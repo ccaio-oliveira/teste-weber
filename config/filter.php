@@ -1,34 +1,38 @@
 <?php
 
+session_start();
 require './conectar_db.php';
-require './produtos.php';
 require './categorias.php';
 
 $select = $_POST['filterProd'];
 
-if ($quantidade_prod > 0 and $quantidade_categ > 0) {
+$categorias = $sql_query_categ->fetch_assoc();
 
-    $categoria = $sql_query_categ->fetch_assoc();    
 
-    do {
+do {
 
-        $categorias = $categoria['nome_categoria'];
-        switch($select){
+    $categoria = $categorias['nome_categoria'];
 
-            case $categorias:
+    switch ($select) {
 
-                $sql_filter = "SELECT * FROM tb_produtos WHERE categoria = '$categorias'";
-                $query_filter = mysqli_query($con, $sql_filter);
+        case 'selected':
 
-                $cont = $query_filter->num_rows;
+            header('Location: ../home.php?categ=selected');
+            break;
 
-                if($cont > 0){
+        case $categoria:
 
-                    header('Location: ../home.php?categ=' . $categorias);
+            $sql_filter = "SELECT * FROM tb_produtos WHERE categoria like '$categoria' ORDER BY nome_produto";
+            $sql_query_filter = mysqli_query($con, $sql_filter);
 
-                }
-                
-        }
+            $filter = $sql_query_filter->fetch_assoc();
 
-    } while ($categoria = $sql_query_categ->fetch_assoc() and $produtos = $sql_query_prod->fetch_assoc());
-}
+            $_SESSION['nome_produto'] = $filter['nome_produto'];
+            $_SESSION['foto'] = $filter['foto'];
+            $_SESSION['categoria'] = $filter['categoria'];
+            $_SESSION['preco'] = $filter['preco'];
+            header('Location: ../home.php?categ' . $categoria);
+            break;
+
+    }
+} while ($categorias = $sql_query_categ->fetch_assoc());

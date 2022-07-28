@@ -22,6 +22,7 @@
                 </div>
             <?php } ?>
             <button type="submit">Login</button>
+            <a href="cadastro.php" class="btn btn-warning">Ainda não possui cadastro? Cadastre-se!</a>
             <?php if(isset($_GET['login']) == 'erro'){ ?>
                 <div class="error">
                     <p>Não foi possível realizar o login, por favor, tente mais tarde!</p>

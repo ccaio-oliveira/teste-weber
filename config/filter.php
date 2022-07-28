@@ -34,7 +34,7 @@ do {
             } while ($filter = $sql_query_filter->fetch_assoc());
             
             
-            header('Location: ../home.php?categ' . $categoria);
+            header('Location: ../home.php?categ=' . $categoria);
 
     }
 } while ($categorias = $sql_query_categ->fetch_assoc());

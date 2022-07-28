@@ -5,6 +5,11 @@ require_once './config/categorias.php';
 require_once './config/produtos.php';
 require_once './config/config.php';
 
+$categorias = $sql_query_categ->fetch_assoc();
+$produtos = $sql_query_prod->fetch_assoc();
+
+$filtro = filter_input(INPUT_GET, 'filterProd', FILTER_SANITIZE_STRING);
+
 ?>
 
 <!DOCTYPE html>
@@ -53,10 +58,10 @@ require_once './config/config.php';
 
             <section id="filter">
 
-                <form action="config/filter.php" method="POST">
+                <form action="" method="GET">
 
                     <label for="filterProd">Filtrar produtos por categoria:</label>
-                    <select name="filterProd" id="filterProd" onchange="">
+                    <select name="filterProd" id="filterProd">
 
                         <option value="selected" selected>--Selecione uma opção--</option>
 
@@ -64,16 +69,11 @@ require_once './config/config.php';
 
                         if ($quantidade_categ > 0) {
 
-                            $categoria = $sql_query_categ->fetch_assoc();
-
                             do { ?>
 
-                                <option value="<?= $categoria['nome_categoria'] ?>"><?= $categoria['nome_categoria'] ?></option>
+                                <option value="<?= $categorias['nome_categoria'] ?>"><?= $categorias['nome_categoria'] ?></option>
 
-                            <?php } while ($categoria = $sql_query_categ->fetch_assoc());
-                        } else {
-
-                            header('Location: ./home.php?erro=invalido');
+                            <?php } while ($categorias = $sql_query_categ->fetch_assoc());
                         } ?>
 
                     </select>
@@ -93,58 +93,50 @@ require_once './config/config.php';
                             <h2>Nenhum produto disponível</h2>
                         </div>
 
-                    <?php } else if(isset($_GET['categ']) == 'selected' or isset($_GET[''])) {
+                    <?php } if($_GET['filterProd'] == 'selected') {
 
-                        if ($quantidade_prod > 0) {
+                        do { ?>
 
-                            $produtos = $sql_query_prod->fetch_assoc();
+                            <div class="prod-item">
 
-                            do { ?>
-
-                                <div class="prod-item">
-
-                                    <div><?php $imagem = base64_encode($produtos['foto']); echo "<img src='data:image/png;base64,$imagem'/>";?></div>
-                                    <div class="prod-text">
-                                        <h2><?= $produtos['nome_produto'] ?></h2>
-                                    </div>
-                                    <div class="prod-info">
-                                        <p class="preco">R$<?= $produtos['preco'] ?></p>
-                                        <p class="categ">Categoria: <?= $produtos['categoria'] ?></p>
-                                        <button class="remove-prod" onclick="apagarProduto(<?= $produtos['id_produto']; ?>)"><i class="fa-solid fa-trash-can"></i> Remover</button>
-                                    </div>
-
+                                <div><?php $imagem = base64_encode($produtos['foto']); echo "<img src='data:image/png;base64,$imagem'/>";?></div>
+                                <div class="prod-text">
+                                    <h2><?= $produtos['nome_produto'] ?></h2>
+                                </div>
+                                <div class="prod-info">
+                                    <p class="preco">R$<?= $produtos['preco'] ?></p>
+                                    <p class="categ">Categoria: <?= $produtos['categoria'] ?></p>
+                                    <button class="remove-prod" onclick="apagarProduto(<?= $produtos['id_produto']; ?>)"><i class="fa-solid fa-trash-can"></i> Remover</button>
                                 </div>
 
-                            <?php } while ($produtos = $sql_query_prod->fetch_assoc());
-                        } else {
-                            header('Location: ./home.php?produto=vazio');
-                        }
-                    } else if(isset($_GET['categ']) == $categoria) {
+                            </div>
 
-                        if($quantidade_prod > 0){
+                        <?php } while ($produtos = $sql_query_prod->fetch_assoc());
 
-                            $categorias = $sql_query_categ->fetch_assoc();
+                    } else if(isset($_GET['filterProd']) == $filtro){
 
-                            do { ?>
+                        $sql_filter = "SELECT * FROM tb_produtos WHERE categoria = '$filtro' ORDER BY nome_produto";
+                        $sql_query_filter = mysqli_query($con, $sql_filter);
 
-                                <div class="prod-item">
+                        $filter = $sql_query_filter->fetch_assoc();
 
-                                    <div><?php $imagem = base64_encode($_SESSION['foto']); echo "<img src='data:image/png;base64,$imagem'/>";?></div>
-                                    <div class="prod-text">
-                                        <h2><?= $_SESSION['nome_produto'] ?></h2>
-                                    </div>
-                                    <div class="prod-info">
-                                        <p class="preco">R$<?= $_SESSION['preco'] ?></p>
-                                        <p class="categ">Categoria: <?= $_SESSION['categoria'] ?></p>
-                                        <button class="remove-prod" onclick="apagarProduto(<?= $_SESSION['id_produto']; ?>)"><i class="fa-solid fa-trash-can"></i> Remover</button>
-                                    </div>
+                        do { ?>
 
+                            <div class="prod-item">
+
+                                <div><?php $imagem = base64_encode($filter['foto']); echo "<img src='data:image/png;base64,$imagem'/>";?></div>
+                                <div class="prod-text">
+                                    <h2><?= $filter['nome_produto'] ?></h2>
+                                </div>
+                                <div class="prod-info">
+                                    <p class="preco">R$<?= $filter['preco'] ?></p>
+                                    <p class="categ">Categoria: <?= $filter['categoria'] ?></p>
+                                    <button class="remove-prod" onclick="apagarProduto(<?= $filter['id_produto']; ?>)"><i class="fa-solid fa-trash-can"></i> Remover</button>
                                 </div>
 
-                            <?php } while($categorias = $sql_query_categ->fetch_assoc());
-                        } else {
-                            header('Location: ./home.php?produto=vazio');
-                        }
+                            </div>
+
+                        <?php } while($filter = $sql_query_filter->fetch_assoc());
 
                     } ?>
 

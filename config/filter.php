@@ -22,19 +22,17 @@ do {
 
         case $categoria:
 
+            print_r($categoria);
+
             $sql_filter = "SELECT * FROM tb_produtos WHERE categoria like '$categoria' ORDER BY nome_produto";
             $sql_query_filter = mysqli_query($con, $sql_filter);
 
-            $filter = $sql_query_filter->fetch_assoc();
-
-            do {
-
+            while ($filter = $sql_query_filter->fetch_assoc()){
                 $_SESSION = $filter;
-
-            } while ($filter = $sql_query_filter->fetch_assoc());
+            }
             
             
-            header('Location: ../home.php?categ' . $categoria);
+            // header('Location: ../home.php?categ=' . $categoria);
 
     }
 } while ($categorias = $sql_query_categ->fetch_assoc());

@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require './conectar_db.php';
+require './config.php';
 require './categorias.php';
 
 $select = $_POST['filterProd'];
@@ -27,12 +27,14 @@ do {
 
             $filter = $sql_query_filter->fetch_assoc();
 
-            $_SESSION['nome_produto'] = $filter['nome_produto'];
-            $_SESSION['foto'] = $filter['foto'];
-            $_SESSION['categoria'] = $filter['categoria'];
-            $_SESSION['preco'] = $filter['preco'];
+            do {
+
+                $_SESSION = $filter;
+
+            } while ($filter = $sql_query_filter->fetch_assoc());
+            
+            
             header('Location: ../home.php?categ' . $categoria);
-            break;
 
     }
 } while ($categorias = $sql_query_categ->fetch_assoc());

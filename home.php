@@ -3,7 +3,7 @@
 require_once './config/protect.php';
 require_once './config/categorias.php';
 require_once './config/produtos.php';
-require_once './config/conectar_db.php';
+require_once './config/config.php';
 
 ?>
 
@@ -110,7 +110,7 @@ require_once './config/conectar_db.php';
                                     <div class="prod-info">
                                         <p class="preco">R$<?= $produtos['preco'] ?></p>
                                         <p class="categ">Categoria: <?= $produtos['categoria'] ?></p>
-                                        <button class="remove-prod"><i class="fa-solid fa-trash-can"></i> Remover</button>
+                                        <button class="remove-prod" onclick="apagarProduto(<?= $produtos['id_produto']; ?>)"><i class="fa-solid fa-trash-can"></i> Remover</button>
                                     </div>
 
                                 </div>
@@ -121,9 +121,9 @@ require_once './config/conectar_db.php';
                         }
                     } else {
 
-                        if($quantidade_prod > 0 and $quantidade_categ > 0){
+                        if($quantidade_prod > 0){
 
-                            $categoria = $sql_query_categ->fetch_assoc();
+                            $categorias = $sql_query_categ->fetch_assoc();
 
                             do { ?>
 
@@ -136,12 +136,12 @@ require_once './config/conectar_db.php';
                                     <div class="prod-info">
                                         <p class="preco">R$<?= $_SESSION['preco'] ?></p>
                                         <p class="categ">Categoria: <?= $_SESSION['categoria'] ?></p>
-                                        <button class="remove-prod"><i class="fa-solid fa-trash-can"></i> Remover</button>
+                                        <button class="remove-prod" onclick="apagarProduto(<?= $_SESSION['id_produto']; ?>)"><i class="fa-solid fa-trash-can"></i> Remover</button>
                                     </div>
 
                                 </div>
 
-                            <?php } while($categoria = $sql_query_categ->fetch_assoc());
+                            <?php } while($categorias = $sql_query_categ->fetch_assoc());
                         } else {
                             header('Location: ./home.php?produto=vazio');
                         }
@@ -154,8 +154,8 @@ require_once './config/conectar_db.php';
         </div>
     </main>
 
-
     <script src="./assets/js/app.js"></script>
+
 </body>
 
 </html>

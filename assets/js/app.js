@@ -1,12 +1,7 @@
-const btnRemove = document.querySelectorAll('.remove-prod');
-const divProd = document.querySelectorAll('.prod-item');
 
-for(let i = 0; i < btnRemove.length; i++){
+async function apagarProduto(id){
 
-    btnRemove[i].onclick = () => {
-
-        divProd[i].remove();
-        
-    }
-
+    await fetch('config/apagar.php?id=' + id);
+    location.reload();
+    
 }

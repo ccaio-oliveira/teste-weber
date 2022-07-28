@@ -1,7 +1,7 @@
 <?php 
 
 session_start();
-require_once './conectar_db.php';
+require_once './config.php';
 
 $nome_produto = $_POST['nome_produto'];
 $categoria = $_POST['nome_categoria'];

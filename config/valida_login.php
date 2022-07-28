@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once './conectar_db.php';
+require_once './config.php';
 
 $email = $_POST['email'];
 $senha = $_POST['senha'];

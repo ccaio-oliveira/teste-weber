@@ -1,6 +1,6 @@
 <?php
 
-require_once './conectar_db.php';
+require_once './config.php';
 $nome_categoria = $_POST['nome_categoria'];
 $descricao = $_POST['descricao'];
 

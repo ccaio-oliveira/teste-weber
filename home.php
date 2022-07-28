@@ -119,7 +119,7 @@ require_once './config/config.php';
                         } else {
                             header('Location: ./home.php?produto=vazio');
                         }
-                    } else {
+                    } else if(isset($_GET['categ']) == $categoria) {
 
                         if($quantidade_prod > 0){
 

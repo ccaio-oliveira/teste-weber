@@ -41,12 +41,14 @@ label, select {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .prod-item {
     background: #ccc;
     margin-right: 30px;
     padding: 10px;
+    margin-bottom: 30px;
 }
 
 .prod-item img {
